@@ -17,7 +17,7 @@ $ go get -u gorm.io/gorm
 
 接口访问地址: http://localhost:8080/swagger/index.html#/
 
-写在对应的中间件上
+写在对应的函数上
 
 ```go
 // GetProblemList
@@ -29,3 +29,12 @@ $ go get -u gorm.io/gorm
 // @Param category_identity query string false "category_identity"
 // @Success 200 {string} json "{"code":"200","data":""}"
 // @Router /problem-list [get]
+```
+
+## 整合JWT
+
+参考文档：https://github.com/dgrijalva/jwt-go
+
+导入依赖
+
+$ go get github.com/dgrijalva/jwt-go
