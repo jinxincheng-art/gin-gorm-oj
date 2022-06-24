@@ -64,29 +64,29 @@ func GetProblemList(ctx *gin.Context) {
 func GetProblemDetail(ctx *gin.Context) {
 	identity := ctx.Query("problem_identity")
 	if identity == "" {
-		ctx.JSON(http.StatusOK,gin.H{
+		ctx.JSON(http.StatusOK, gin.H{
 			"code": -1,
-			"msg": "问题唯一标识不能为空",
+			"msg":  "问题唯一标识不能为空",
 		})
 		return
 	}
 	data := new(models.ProblemBasic)
-	err := models.DB.Where("identity = ?",identity).Preload("ProblemCategories").Preload("ProblemCategories.CategoryBasic").First(&data).Error
+	err := models.DB.Where("identity = ?", identity).Preload("ProblemCategories").Preload("ProblemCategories.CategoryBasic").First(&data).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
-			ctx.JSON(http.StatusOK,gin.H{
+			ctx.JSON(http.StatusOK, gin.H{
 				"code": -1,
-				"msg": "问题不存在",
+				"msg":  "问题不存在",
 			})
 			return
 		}
-		ctx.JSON(http.StatusOK,gin.H{
+		ctx.JSON(http.StatusOK, gin.H{
 			"code": -1,
-			"msg": "Get Problem Detail Error:" + err.Error(),
+			"msg":  "Get Problem Detail Error:" + err.Error(),
 		})
 		return
 	}
-	ctx.JSON(http.StatusOK,gin.H{
+	ctx.JSON(http.StatusOK, gin.H{
 		"code": 200,
 		"data": data,
 	})
