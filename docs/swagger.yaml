@@ -43,19 +43,4 @@ paths:
       summary: 问题列表
       tags:
       - 公共方法
-  /user-detail:
-    get:
-      parameters:
-      - description: user_identity
-        in: query
-        name: user_identity
-        type: string
-      responses:
-        "200":
-          description: '{"code":"200","data":""}'
-          schema:
-            type: string
-      summary: 用户详情
-      tags:
-      - 公共方法
 swagger: "2.0"
