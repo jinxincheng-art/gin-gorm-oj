@@ -19,7 +19,7 @@ func (table *ProblemBasic) TableName() string {
 }
 
 func GetProblemList(keyword, categoryIdentity string) *gorm.DB {
-	tx := DB.Model(new(ProblemBasic)).Preload("ProblemCategories").Preload("ProblemCategories.CategoryBasic").
+	tx := DB.Debug().Model(new(ProblemBasic)).Preload("ProblemCategories").Preload("ProblemCategories.CategoryBasic").
 	Where("title like ? or content like ?", "%"+keyword+"%", "%"+keyword+"%")
 	if categoryIdentity != "" {
 		tx.Joins("RIGHT JOIN problem_category pc on pc.problem_id = problem_basic.id").

@@ -16,3 +16,16 @@ $ go get -u gorm.io/gorm
 参考文档: https://github.com/swaggo/gin-swagger
 
 接口访问地址: http://localhost:8080/swagger/index.html#/
+
+写在对应的中间件上
+
+```go
+// GetProblemList
+// @Tags 公共方法
+// @Summary 问题列表
+// @Param page query int false "page"
+// @Param size query int false "size"
+// @Param keyword query string false "keyword"
+// @Param category_identity query string false "category_identity"
+// @Success 200 {string} json "{"code":"200","data":""}"
+// @Router /problem-list [get]

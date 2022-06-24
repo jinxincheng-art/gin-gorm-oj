@@ -4,6 +4,7 @@ import (
 	"gin-gorm-oj/define"
 	"gin-gorm-oj/models"
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 	"log"
 	"net/http"
 	"strconv"
@@ -39,7 +40,7 @@ func GetProblemList(ctx *gin.Context) {
 
 	tx := models.GetProblemList(keyword, categoryIdentity)
 
-	err = tx.Debug().Count(&totalCount).Omit("content").Offset((page - 1) * size).Limit(size).Find(&list).Error
+	err = tx.Count(&totalCount).Omit("content").Offset((page - 1) * size).Limit(size).Find(&list).Error
 	if err != nil {
 		log.Println("Get Problem Error:", err)
 		return
@@ -51,5 +52,42 @@ func GetProblemList(ctx *gin.Context) {
 			"data":       list,
 			"totalCount": totalCount,
 		},
+	})
+}
+
+// GetProblemDetail
+// @Tags 公共方法
+// @Summary 问题详情
+// @Param problem_identity query string false "problem_identity"
+// @Success 200 {string} json "{"code":"200","data":""}"
+// @Router /problem-detail [get]
+func GetProblemDetail(ctx *gin.Context) {
+	identity := ctx.Query("problem_identity")
+	if identity == "" {
+		ctx.JSON(http.StatusOK,gin.H{
+			"code": -1,
+			"msg": "问题唯一标识不能为空",
+		})
+		return
+	}
+	data := new(models.ProblemBasic)
+	err := models.DB.Where("identity = ?",identity).Preload("ProblemCategories").Preload("ProblemCategories.CategoryBasic").First(&data).Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			ctx.JSON(http.StatusOK,gin.H{
+				"code": -1,
+				"msg": "问题不存在",
+			})
+			return
+		}
+		ctx.JSON(http.StatusOK,gin.H{
+			"code": -1,
+			"msg": "Get Problem Detail Error:" + err.Error(),
+		})
+		return
+	}
+	ctx.JSON(http.StatusOK,gin.H{
+		"code": 200,
+		"data": data,
 	})
 }
