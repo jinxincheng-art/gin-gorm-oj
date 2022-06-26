@@ -38,3 +38,28 @@ $ go get -u gorm.io/gorm
 导入依赖
 
 $ go get github.com/dgrijalva/jwt-go
+
+## 邮件发送验证码
+
+参考文档：https://github.com/jordan-wright/email
+
+导入依赖
+
+$ go get github.com/jordan-wright/email
+
+## go-redis
+参考文档：https://github.com/go-redis/redis
+
+导入依赖
+
+$ go get github.com/go-redis/redis
+
+## go.uuid
+
+参考文档：https://github.com/satori/go.uuid
+
+导入依赖
+
+$go get github.com/satori/go.uuid
+
+
